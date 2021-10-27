@@ -1,1 +1,16 @@
+aiohttp==3.7.4.post0
+async-timeout==3.0.1
+attrs==21.2.0
+chardet==4.0.0
+greenlet==1.1.2
+idna==3.3
+IMDbPY==2021.4.18
+importlib-metadata==4.8.1
+lxml==4.6.3
+multidict==5.2.0
+SQLAlchemy==1.4.26
 telepot==12.7
+typing-extensions==3.10.0.2
+urllib3==1.26.7
+yarl==1.7.0
+zipp==3.6.0
