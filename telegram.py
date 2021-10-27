@@ -33,7 +33,7 @@ def handle(msg):
         bot.sendMessage(chat_id, str("Date: ") + str(now.day) + str("/") + str(now.month) + str("/") + str(now.year))
     elif '/search' in command:
         search = command.split("/search", 1)
-        if not search and len(search) == 2:
+        if search and len(search) == 2:
             search_movies_by_name(chat_id, search[1].lstrip())
 
 
