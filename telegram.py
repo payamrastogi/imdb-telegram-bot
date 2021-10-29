@@ -1,10 +1,11 @@
 # !/usr/bin/env python3
 import datetime  # Importing the datetime library
-import telepot  # Importing the telepot library
-from telepot.loop import MessageLoop  # Library function to communicate with telegram bot
 from time import sleep  # Importing the time library to provide the delays in program
-from imdb import IMDb, IMDbError
+
+import telepot  # Importing the telepot library
 import yaml
+from imdb import IMDb, IMDbError
+from telepot.loop import MessageLoop  # Library function to communicate with telegram bot
 
 now = datetime.datetime.now()  # Getting date and time
 
@@ -48,7 +49,7 @@ def search_movies_by_name(chat_id, name):
                 # print(movie, , mov.data['rating'], mov.data['genres'])
 
                 bot.sendMessage(chat_id,
-                                str("Id:") + str(movie.movieID) + str("\n")
+                                str("Id: ") + str(movie.movieID) + str("\n")
                                 + str("Title: ") + str(mov.data['title']) + str("\n")
                                 + str("Year: ") + str(mov.data['year']) + str("\n")
                                 + str("Rating: ") + str(mov.data['rating']) + str("\n")

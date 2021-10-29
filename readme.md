@@ -6,3 +6,9 @@
 - https://flexiple.com/check-if-list-is-empty-python/
 - https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python
 - https://dev.to/serhatteker/how-to-install-virtualenv-on-ubuntu-18-04-2jdi
+- https://docs.python.org/2/library/re.html
+- https://www.w3schools.com/python/ref_string_startswith.asp
+- https://stackoverflow.com/questions/1549641/how-can-i-capitalize-the-first-letter-of-each-word-in-a-string
+- https://stackoverflow.com/questions/3277503/how-to-read-a-file-line-by-line-into-a-list
+- https://stackoverflow.com/questions/20510108/vertical-column-text-select-in-pycharm
+- https://www.alcher.me/databases-ru-en/mongodb/install-32-and-64-mongodb/
