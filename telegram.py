@@ -15,6 +15,7 @@ def read_telegram_bot_token():
         telegram_bot_token_yaml = yaml.load(f, Loader=yaml.FullLoader)
         return telegram_bot_token_yaml['bot_token']
 
+
 def handle(msg):
     chat_id = msg['chat']['id']  # Receiving the message from telegram
     command = msg['text']  # Getting text from the message

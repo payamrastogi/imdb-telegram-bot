@@ -1,19 +1,33 @@
 import re
+from moviedb import MongoDBClient
 
 
 class ProcessTextFile:
 
     def __init__(self, filename):
         self.filename = filename
+        self.mongo = MongoDBClient()
 
     def process_file(self):
+        count_movies = 0
+        count_series = 0
         with open(self.filename) as file:
             for line in file:
                 line = line.strip().lower()
                 if self.is_series(line):
-                    print(self.get_series_details(line))
+                    series = self.get_series_details(line)
+                    # print(series)
+                    res = self.mongo.insert_or_update_series(series)
+                    if res:
+                        count_series = count_series+1
                 else:
-                    print(self.get_movie_details(line))
+                    movie = self.get_movie_details(line)
+                    res = self.mongo.insert_movie(movie)
+                    if res:
+                        count_movies = count_movies+1
+        print(count_series)
+        print(count_movies)
+        print(count_series + count_movies)
 
     @staticmethod
     def is_series(text):
@@ -83,5 +97,5 @@ class ProcessTextFile:
 
 
 if __name__ == '__main__':
-    parse = Parse('movies.txt')
-    parse.process_file()
+    process_text_file = ProcessTextFile('movies.txt')
+    process_text_file.process_file()

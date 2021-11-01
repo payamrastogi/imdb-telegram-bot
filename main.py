@@ -4,21 +4,25 @@ import yaml
 ia = IMDb()
 
 
-def search_movies_by_name(name):
-    try:
-        movies = ia.search_movie(name)
-        for movie in movies:
-            try:
-                # print(movie.movieID)
-                mov = ia.get_movie(movie.movieID)
-                print(movie, mov.data['year'], mov.data['rating'], mov.data['genres'])
-                mov.infoset2keys
-                print(mov.get('plot'))
-            except (IMDbError, KeyError) as err:
-                pass
-                # print(err)
-    except IMDbError as e:
-        print(e)
+class IMDBClient:
+    def __init__(self):
+        self.imdb_client = IMDb()
+
+    def search_movies_by_name(self, name):
+        try:
+            movies = self.imdb_client.search_movie(name)
+            for movie in movies:
+                try:
+                    # print(movie.movieID)
+                    mov = ia.get_movie(movie.movieID)
+                    print(movie, mov.data['year'], mov.data['rating'], mov.data['genres'])
+                    mov.infoset2keys
+                    print(mov.get('plot'))
+                except (IMDbError, KeyError) as err:
+                    pass
+                    # print(err)
+        except IMDbError as e:
+            print(e)
 
 
 def read_telegram_bot_token():

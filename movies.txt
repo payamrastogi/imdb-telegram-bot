@@ -827,16 +827,16 @@ Bad Teacher(3.5)
 Super Rhino Bolt extra(4)
 Conan The barbarian (3)
 Justice league twin earth(4)
-Series: Justice league season:1
-Series: Justice league season:2
-Series: Justice league unlimited season:1
-Series: Batman Beyond season:1
-Series: Samurai Jack season:1
-Series: Samurai Jack season:2
-Series: Samurai Jack season:3
-Series: Prison Break season:1
-Series: Heroes season:1
-Series: Heroes season:2
+Series: Justice league season:1 (5)
+Series: Justice league season:2 (5)
+Series: Justice league unlimited season:1 (5)
+Series: Batman Beyond season:1 (5)
+Series: Samurai Jack season:1 (5)
+Series: Samurai Jack season:2 (5)
+Series: Samurai Jack season:3 (5)
+Series: Prison Break season:1 (5)
+Series: Heroes season:1 (4)
+Series: Heroes season:2 (4)
 Amazing Spiderman(3)
 Another Silence(4)
 Ice Age 4: Continental Drift (5)
@@ -865,10 +865,10 @@ Justice (4)
 Expendables 2 (4)
 Five Year Engagement(3.5)
 The Borne Legacy (3)
-Series: The Big Bang Theory season:1
-Series: The Big Bang Theory season:2
-Series: The Big Bang Theory season:3
-Series: The Big Bang Theory season:4
+Series: The Big Bang Theory season:1 (5)
+Series: The Big Bang Theory season:2 (4.5)
+Series: The Big Bang Theory season:3 (4.5)
+Series: The Big Bang Theory season:4 (4)
 Life of Pi(5)
 Batman: The mask of phantasm(4)
 Premium Rush(3.5)
@@ -879,7 +879,7 @@ Taken2(3.5)
 Man with the iron fist(2)
 Superman: The Brainiac Attack(2)
 Wonder Woman(4)
-Series: The Big Bang Theory season:5
+Series: The Big Bang Theory season:5 (4)
 Green Lantern: First Flight(3.5)
 Green Lantern: Emrald Knights(3)
 Jonah Hex(2)
@@ -897,10 +897,10 @@ Thor: legend of magical hammer(1)
 Hobbit: an unexpected journey(4)
 Danny the dog(3)
 Red Dawn (4)
-Series: Game of Throne season:1
-Series: Game of Throne season:2
-Series: Sherlock Holmes season:1
-Series: Sherlock Holmes season:2
+Series: Game of Throne season:1 (4.5)
+Series: Game of Throne season:2 (4.5)
+Series: Sherlock Holmes season:1 (5)
+Series: Sherlock Holmes season:2 (5)
 Madly Madagascar (3)
 Iron Man 3 (5)
 Resident Evil: Retribution (2)
@@ -911,7 +911,7 @@ Friends with benefits(3)
 Guilt trip(3)
 Jack reacher(4)
 Snitch(4)
-Series: The Big Bang Theory season:6
+Series: The Big Bang Theory season:6 (3.5)
 Forever Strong(4)
 Fast and Furious 6 (3)
 Oz the great and powerful(3)
@@ -925,19 +925,19 @@ Last Passenger(4)
 Zaytoun(4.5)
 Bullet to the head(2)
 G.I. Joe: Retaliation(4)
-Series: Kyle season:1
-Series: Kyle season:2
-Series: Dexter season:1
-Series: Dexter season:2
-Series: Dexter season:3
-Series: Dexter season:4
+Series: Kyle season:1 (4)
+Series: Kyle season:2 (4)
+Series: Dexter season:1 (5)
+Series: Dexter season:2 (5)
+Series: Dexter season:3 (5)
+Series: Dexter season:4 (5)
 Redemption (2)
 The Croods(2)
-Series: Dexter season:5
-Series: Dexter season:6
+Series: Dexter season:5 (5)
+Series: Dexter season:6 (5)
 Olympus has fallen(3)
 Killing Season(4)
-Series: Dexter season:7
+Series: Dexter season:7 (5)
 Oblivion (3)
 The colony(3)
 Epic(3)
@@ -959,7 +959,7 @@ Now you see me(4)
 Empire state(3)
 The daughter(3)nger
 The Frozen Ground(3.5)
-Series: Dexter season:8
+Series: Dexter season:8 (5)
 Donnie Darko (4)
 Hotel Transylvania(4)
 Kick Ass 2 (3)
@@ -1183,8 +1183,8 @@ Pressure(4)
 Final Girl (2)
 The wolf of wall street (5)
 Me, Myself and Irene (3)
-Series: Death Note season:1
-Series: Death Note season:2
+Series: Death Note season:1 (4.5)
+Series: Death Note season:2 (4.5)
 Entourage (3.5)
 Batman unlimited: monster mayhem (3)
 Terminator: Genisys (3.5)
@@ -1697,6 +1697,7 @@ Series: Naruto season:3 (2)
 Series: Naruto season:4 (2)
 Avatar (4)
 Series: Avatar: The Last Airbender season:1 (5)
+Series: Avatar: The Last Airbender season:2 (5)
 Series: Avatar: The Last Airbender season:2 (5)
 Series: Avatar: The Last Airbender season:3 (5)
 Series: Avatar: The Legend of Korra season:1 (5)

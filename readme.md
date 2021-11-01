@@ -12,3 +12,10 @@
 - https://stackoverflow.com/questions/3277503/how-to-read-a-file-line-by-line-into-a-list
 - https://stackoverflow.com/questions/20510108/vertical-column-text-select-in-pycharm
 - https://www.alcher.me/databases-ru-en/mongodb/install-32-and-64-mongodb/
+- https://www.geeksforgeeks.org/mongodb-python-insert-update-data/
+- https://docs.python.org/3/tutorial/classes.html
+- https://www.geeksforgeeks.org/create-a-database-in-mongodb-using-python/
+- https://www.w3schools.com/python/python_mongodb_create_db.asp
+- https://docs.mongodb.com/manual/reference/method/db.removeUser/
+- https://thedatafrog.com/en/articles/mongodb-remote-raspberry-pi/
+- https://www.tutorialspoint.com/mongodb/mongodb_create_database.htm
