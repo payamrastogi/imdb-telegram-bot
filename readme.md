@@ -19,3 +19,7 @@
 - https://docs.mongodb.com/manual/reference/method/db.removeUser/
 - https://thedatafrog.com/en/articles/mongodb-remote-raspberry-pi/
 - https://www.tutorialspoint.com/mongodb/mongodb_create_database.htm
+- https://stackoverflow.com/questions/59481878/unable-to-start-kafka-with-zookeeper-kafka-common-inconsistentclusteridexceptio
+- https://blog.fireheart.in/a?ID=01800-cdf8efa1-1f8b-4835-8aa1-bd4a89f66f81
+- https://kafka.apache.org/quickstart
+- https://stackoverflow.com/questions/62405458/unable-to-send-messages-to-topic-in-kafka-python
