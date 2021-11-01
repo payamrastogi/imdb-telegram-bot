@@ -1,7 +1,7 @@
 import re
 
 
-class Parse:
+class ProcessTextFile:
 
     def __init__(self, filename):
         self.filename = filename
