@@ -1,5 +1,5 @@
 import re
-from moviedb import MongoDBClient
+from mongodb_client import MongoDBClient
 
 
 class ProcessTextFile:

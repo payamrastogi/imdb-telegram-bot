@@ -1,2 +1,4 @@
 .idea/
-telegram_token.yaml
+config.yaml
+__pycache__/
+*.pyc

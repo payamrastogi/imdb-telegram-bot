@@ -1,12 +1,14 @@
 import pymongo
 from bson import ObjectId
+import config_util
+
+MONGO_URI = config_util.read_mongo_uri()
 
 
 class MongoDBClient:
     def __init__(self):
         try:
-            mongo_uri = "mongodb://192.168.1.23:27017"
-            self.mongo_client = pymongo.MongoClient(mongo_uri)
+            self.mongo_client = pymongo.MongoClient(MONGO_URI)
             self.movie_db = self.mongo_client["moviedb"]
         except Exception as e:
             print("could not connect to MongoDB", e)
@@ -25,7 +27,7 @@ class MongoDBClient:
             movies_collection = self.movie_db.movies
             res = movies_collection.find({'name': {'$regex': movie_name.strip().lower(),  '$options': 'i'}})
             for movie in res:
-                movies.append({"name": movie["name"], "ps_rating": movie["rating"]})
+                movies.append({"name": movie["name"], "psmdb_rating": movie["rating"]})
             return movies
         return []
 

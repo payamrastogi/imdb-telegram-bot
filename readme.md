@@ -1,3 +1,23 @@
+#### Starting Zookeeper/kafka
+- sudo ./kafka/bin/zookeeper-server-start.sh ./kafka/config/zookeeper.properties
+- sudo ./kafka/bin/kafka-server-start.sh ./kafka/config/server.properties
+
+#### Troubleshooting 
+- Delete all files in kafka/data and kafka/logs folder
+- List kafka topics
+```
+ ./kafka/bin/kafka-topics.sh --list --zookeeper 192.168.1.23:2181
+
+```
+- Describe a Kafka topic
+```
+./kafka/bin/kafka-topics.sh --describe --topic imdb_request_topic --bootstrap-server 192.168.1.23:9092
+./kafka/bin/kafka-topics.sh --describe --topic psmdb_request_topic --bootstrap-server 192.168.1.23:9092
+./kafka/bin/kafka-topics.sh --describe --topic response_topic --bootstrap-server 192.168.1.23:9092
+```
+
+
+
 #### References:
 - https://stackoverflow.com/questions/19645527/trying-to-get-pycharm-to-work-keep-getting-no-python-interpreter-selected
 - https://stackoverflow.com/questions/33785755/getting-could-not-find-function-xmlcheckversion-in-library-libxml2-is-libxml2
@@ -23,3 +43,4 @@
 - https://blog.fireheart.in/a?ID=01800-cdf8efa1-1f8b-4835-8aa1-bd4a89f66f81
 - https://kafka.apache.org/quickstart
 - https://stackoverflow.com/questions/62405458/unable-to-send-messages-to-topic-in-kafka-python
+
