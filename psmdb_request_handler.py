@@ -1,3 +1,5 @@
+# !/usr/bin/env python3
+
 import json
 
 from bson import json_util
@@ -13,6 +15,7 @@ BOOTSTRAP_SERVERS = config_util.read_bootstrap_servers()
 
 class PSMDBRequestHandler:
     def __init__(self):
+        self.operator = {"search-gte", "search-gt", "search-e"}
         self.kafka_consumer = KafkaConsumer(PSMDB_REQUEST_TOPIC, bootstrap_servers=BOOTSTRAP_SERVERS)
         self.kafka_producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS)
         self.mongodb_client = MongoDBClient()
@@ -24,9 +27,20 @@ class PSMDBRequestHandler:
         request_type = request["type"]
         if request_type == "isseen":
             self.process_is_seen_request(request)
+        elif request-type == "search-gte":
+            self.process_search_gte_request(request)
 
     def process_is_seen_request(self, request):
-        movies = self.mongodb_client.find_movies_by_name(request)
+        movie_name = request["query"]
+        movies = self.mongodb_client.find_movies_by_name(movie_name)
+        for movie in movies:
+            data = self.create_data(movie)
+            response = self.create_response(request, data)
+            self.publish_response(response)
+
+    def process_search_gte_request(self, request):
+        movie_rating = request["query"]
+        movies = self.mongodb_client.find_movies_by_rating_gte(movie_rating)
         for movie in movies:
             data = self.create_data(movie)
             response = self.create_response(request, data)

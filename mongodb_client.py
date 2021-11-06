@@ -10,22 +10,22 @@ class MongoDBClient:
         try:
             self.mongo_client = pymongo.MongoClient(MONGO_URI)
             self.movie_db = self.mongo_client["moviedb"]
+            self.movies_collection = self.movie_db.movies
+            self.series_collection = self.movie_db.series
         except Exception as e:
             print("could not connect to MongoDB", e)
 
     def insert_movie(self, movie):
         if movie:
-            movies_collection = self.movie_db.movies
             mov = {'name': movie['movie_name'], 'rating': movie['movie_rating']}
-            movies_collection.insert_one(mov)
+            self.movies_collection.insert_one(mov)
             return True
         return False
 
     def find_movies_by_name(self, movie_name):
         movies = []
         if movie_name:
-            movies_collection = self.movie_db.movies
-            res = movies_collection.find({'name': {'$regex': movie_name.strip().lower(),  '$options': 'i'}})
+            res = self.movies_collection.find({'name': {'$regex': movie_name.strip().lower(),  '$options': 'i'}})
             for movie in res:
                 movies.append({"name": movie["name"], "psmdb_rating": movie["rating"]})
             return movies
@@ -33,10 +33,30 @@ class MongoDBClient:
 
     def find_movie_by_id(self, movie_id):
         if movie_id:
-            movies_collection = self.movie_db.movies
-            movie = movies_collection.find_one({"_id": ObjectId(movie_id)})
+            movie = self.movies_collection.find_one({"_id": ObjectId(movie_id)})
             return movie
         return None
+
+    def find_movies_by_rating_gte(self, rating):
+        movies = []
+        if rating:
+            res = self.movies_collection.find({"rating": {"$gte": "rating"}})
+            for movie in res:
+                movies.append({"name": movie["name"], "psmdb_rating": movie["rating"]})
+            return movies
+        return []
+
+    def update_movie_imdb_id(self, psmdb_id, imdb_id):
+        if psmdb_id and imdb_id:
+            movie = self.find_movie_by_id(psmdb_id)
+            movie["imdb_id"] = imdb_id
+            query = {"_id": movie['_id']}
+            self.movies_collection.find_one_and_replace(query, movie)
+            return True
+        return False
+
+    def delete_all_movies(self):
+        self.movies_collection.drop()
 
     def insert_or_update_series(self, series):
         if series:
@@ -50,7 +70,6 @@ class MongoDBClient:
 
     def insert_series(self, series):
         if series:
-            series_collection = self.movie_db.series
             s = {
                 'name': series['series_name'],
                 'seasons': [
@@ -61,7 +80,7 @@ class MongoDBClient:
                 ],
                 'rating': float(series['series_rating'])
             }
-            series_collection.insert_one(s)
+            self.series_collection.insert_one(s)
             return True
         return False
 
@@ -70,37 +89,31 @@ class MongoDBClient:
             size = len(s['seasons'])
             s['seasons'].append({'season': series['series_season_number'], 'rating': series['series_rating']})
             s['rating'] = (s['rating'] * size + float(series['series_rating'])) / (len(s['seasons'])*1.0)
-            series_collection = self.movie_db.series
             query = {"_id": s['_id']}
-            series_collection.find_one_and_replace(query, s)
+            self.series_collection.find_one_and_replace(query, s)
             return True
         return False
 
     def find_series_by_id(self, series_id):
         if series_id:
-            series_collection = self.movie_db.series
-            series = series_collection.find_one({"_id": ObjectId(series_id)})
+            series = self.series_collection.find_one({"_id": ObjectId(series_id)})
             return series
         return None
 
     def find_series_by_name(self, series_name):
         if series_name:
-            series_collection = self.movie_db.series
-            series = series_collection.find_one({"name": series_name})
+            series = self.series_collection.find_one({"name": series_name})
             return series
         return None
 
     def delete_series_by_id(self, series_id):
         if series_id:
-            series_collection = self.movie_db.series
-            series_collection.delete_one({"_id": ObjectId(series_id)})
+            self.series_collection.delete_one({"_id": ObjectId(series_id)})
             return True
         return False
 
     def delete_all_series(self):
-        series_collection = self.movie_db.series
-        series_collection.delete_many()
-
+        self.series_collection.drop()
 
 if __name__ == '__main__':
     mongo = MongoDBClient()

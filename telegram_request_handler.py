@@ -16,6 +16,7 @@ class TelegramRequestHandler:
         self.bot = telepot.Bot(read_telegram_bot_token())
         print(self.bot.getMe())
         self.kafka_producer = KafkaProducer(bootstrap_servers='192.168.1.23:9092')
+        self.start()
 
     # Start listening to the telegram bot and whenever a message is  received, the handle function will be called.
     def start(self):
