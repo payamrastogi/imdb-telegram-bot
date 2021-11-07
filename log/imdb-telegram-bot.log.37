@@ -1,0 +1,1 @@
+2021-11-07 01:00:21,705 - imdbpy.parser.http.piculet - DEBUG - removing 2 elements using path: "//td[@colspan="4"]/.."

@@ -27,9 +27,8 @@ class MongoDBClient:
         if movie_name:
             res = self.movies_collection.find({'name': {'$regex': movie_name.strip().lower(),  '$options': 'i'}})
             for movie in res:
-                movies.append({"name": movie["name"], "psmdb_rating": movie["rating"]})
-            return movies
-        return []
+                movies.append({"psmdb_id": str(movie["_id"]), "name": movie["name"], "psmdb_rating": movie["rating"]})
+        return movies
 
     def find_movie_by_id(self, movie_id):
         if movie_id:
@@ -42,7 +41,7 @@ class MongoDBClient:
         if rating:
             res = self.movies_collection.find({"rating": {"$gte": "rating"}})
             for movie in res:
-                movies.append({"name": movie["name"], "psmdb_rating": movie["rating"]})
+                movies.append({"psmdb_id": str(movie["_id"]), "name": movie["name"], "psmdb_rating": movie["rating"]})
             return movies
         return []
 

@@ -8,10 +8,10 @@ from kafka import KafkaConsumer, KafkaProducer
 
 import config_util
 
-import logging
-from logging.config import fileConfig
-fileConfig('logging.conf')
-logger = logging.getLogger()
+# import logging
+# from logging.config import fileConfig
+# fileConfig('logging.conf')
+# logger = logging.getLogger()
 
 RESPONSE_TOPIC = config_util.read_response_topic()
 IMDB_REQUEST_TOPIC = config_util.read_imdb_request_topic()
@@ -20,15 +20,19 @@ BOOTSTRAP_SERVERS = config_util.read_bootstrap_servers()
 
 class IMDBRequestHandler:
     def __init__(self):
-        self.kafka_consumer = KafkaConsumer(IMDB_REQUEST_TOPIC, bootstrap_servers=BOOTSTRAP_SERVERS)
         self.kafka_producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS)
         self.imdb_client = IMDb()
-        for request in self.kafka_consumer:
+
+    def start(self):
+        kafka_consumer = KafkaConsumer(IMDB_REQUEST_TOPIC,
+                                       bootstrap_servers=BOOTSTRAP_SERVERS,
+                                       value_deserializer=lambda m: json.loads(m.decode('utf-8')))
+        for request in kafka_consumer:
             self.process_request(request)
 
     def process_request(self, request):
-        logger.info('process_request: start request:{}', request)
-        request = json.load(request)
+        #logger.info('process_request: start request:{}', request)
+        request = request.value
         request_type = request["type"]
         if request_type == "search":
             self.find_movies(request)
@@ -36,7 +40,7 @@ class IMDBRequestHandler:
             self.find_movie(request, True)
 
     def find_movies(self, request, with_plot=False):
-        logger.info('find_movies: start request:{}', request)
+        #logger.info('find_movies: start request:{}', request)
         query = request["query"]
         if query:
             try:
@@ -65,18 +69,24 @@ class IMDBRequestHandler:
 
     @staticmethod
     def create_data(movie_id, movie, with_plot):
-        data = {
-            "imdb_id": movie_id,
-            "name": movie.data['title'],
-            "year": movie.data['year'],
-            "imdb_rating": movie.data['rating'],
-            "genres": movie.data['genres']
-        }
+        data = { "imdb_id": movie_id, "name": movie.data['title'] }
+        if "rating" in movie.data:
+            data["imdb_rating"] = movie.data['rating']
+        if "year" in movie.data:
+            data["year"] = movie.data['year']
+        if "genres" in movie.data:
+            data["genres"] = movie.data['genres']
         if with_plot:
             movie.infoset2keys
-            data["plot"] = movie.get('plot')
+            if "plot" in movie:
+                data["plot"] = movie.get('plot')
         return data
 
     def publish_response(self, response):
         self.kafka_producer.send(RESPONSE_TOPIC, json.dumps(response, default=json_util.default).encode('utf-8'))
         self.kafka_producer.flush()
+
+
+if __name__ == '__main__':
+    imdb_request_handler = IMDBRequestHandler()
+    imdb_request_handler.start()
