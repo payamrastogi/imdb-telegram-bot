@@ -33,8 +33,7 @@ class TelegramRequestHandler:
         logger.info('handle: start', msg)
         chat_id = msg['chat']['id']  # Receiving the message from telegram
         command = msg['text']  # Getting text from the message
-
-        logger.debug("Received:", command)
+        print(command)
         # Comparing the incoming message to send a reply according to it
         if command == '/hi':
             self.bot.sendMessage(chat_id, str("Hi! from crunch"))
@@ -54,7 +53,7 @@ class TelegramRequestHandler:
         isseen = command.split("/isseen", 1)
         if isseen and len(isseen) == 2:
             request = {
-                "command": "isseen",
+                "type": "isseen",
                 "query": isseen[1].strip(),
                 "chat_id": chat_id
             }
@@ -65,7 +64,7 @@ class TelegramRequestHandler:
         search = command.split("/search", 1)
         if search and len(search) == 2:
             request = {
-                "command": "search",
+                "type": "search",
                 "query": search[1].strip(),
                 "chat_id": chat_id
             }
@@ -74,7 +73,7 @@ class TelegramRequestHandler:
     def process_date_command(self, chat_id):
         logger.info('process_date_command: start')
         request = {
-            "command": "date",
+            "type": "date",
             "query": None,
             "chat_id": chat_id
         }
@@ -83,7 +82,7 @@ class TelegramRequestHandler:
     def process_time_command(self, chat_id):
         logger.info('process_time_command: start')
         request = {
-            "command": "time",
+            "type": "time",
             "query": None,
             "chat_id": chat_id
         }
@@ -92,7 +91,7 @@ class TelegramRequestHandler:
     def process_help_command(self, chat_id):
         logger.info('process_help_command: start')
         request = {
-            "command": "help",
+            "type": "help",
             "query": None,
             "chat_id": chat_id
         }
