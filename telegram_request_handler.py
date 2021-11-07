@@ -58,7 +58,7 @@ class TelegramRequestHandler:
                 "query": isseen[1].strip(),
                 "chat_id": chat_id
             }
-            self.publish_request(request, "psmdb_request_topic")
+            self.publish_request("psmdb_request_topic", request)
 
     def process_search_command(self, chat_id, command):
         logger.info('process_search_command: start chat id:{} and command: {}', chat_id, command)
@@ -66,10 +66,10 @@ class TelegramRequestHandler:
         if search and len(search) == 2:
             request = {
                 "command": "search",
-                "query": search[1].lstrip(),
+                "query": search[1].strip(),
                 "chat_id": chat_id
             }
-            self.publish_request(request, "imdb_request_topic")
+            self.publish_request("imdb_request_topic", request)
 
     def process_date_command(self, chat_id):
         logger.info('process_date_command: start chat id:{}', chat_id)
@@ -104,11 +104,3 @@ class TelegramRequestHandler:
             self.kafka_producer.send(topic, json.dumps(request, default=json_util.default).encode('utf-8'))
             self.kafka_producer.flush()
 
-    @staticmethod
-    def create_create_request(chat_id, query):
-        request = {
-            "type": "search",
-            "query": query,
-            "chat_id": chat_id
-        }
-        return request
