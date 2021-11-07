@@ -50,12 +50,12 @@ class TelegramRequestHandler:
             self.process_isseen_command(chat_id, command)
 
     def process_isseen_command(self, chat_id, command):
-        logger.info('process_search_command: start', chat_id, command)
+        logger.info('process_isseen_command: start', chat_id, command)
         isseen = command.split("/isseen", 1)
         if isseen and len(isseen) == 2:
             request = {
                 "command": "isseen",
-                "query": isseen[1].lstrip(),
+                "query": isseen[1].strip(),
                 "chat_id": chat_id
             }
             self.publish_request(request, "psmdb_request_topic")
@@ -99,10 +99,9 @@ class TelegramRequestHandler:
         self.publish_request("general_request_topic", request)
 
     def publish_request(self, topic, request):
+        logger.info('publish_request: start', topic, request)
         if topic and request:
-            logger.info('publish_request: start', topic, request)
-            self.kafka_producer.send(topic,
-                                     json.dumps(request, default=json_util.default).encode('utf-8'))
+            self.kafka_producer.send(topic, json.dumps(request, default=json_util.default).encode('utf-8'))
 
     @staticmethod
     def create_create_request(chat_id, query):
