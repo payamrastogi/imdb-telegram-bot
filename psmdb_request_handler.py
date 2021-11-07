@@ -20,11 +20,13 @@ BOOTSTRAP_SERVERS = config_util.read_bootstrap_servers()
 
 class PSMDBRequestHandler:
     def __init__(self):
-        print('PSMDBRequestHandler')
-        self.kafka_consumer = KafkaConsumer(PSMDB_REQUEST_TOPIC, bootstrap_servers=BOOTSTRAP_SERVERS)
         self.kafka_producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS)
         self.mongodb_client = MongoDBClient()
-        for request in self.kafka_consumer:
+        self.start()
+
+    def start(self):
+        kafka_consumer = KafkaConsumer(PSMDB_REQUEST_TOPIC, bootstrap_servers=BOOTSTRAP_SERVERS)
+        for request in kafka_consumer:
             self.process_request(request)
 
     def process_request(self, request):
@@ -79,3 +81,5 @@ class PSMDBRequestHandler:
             "data": data
         }
         return response
+
+
