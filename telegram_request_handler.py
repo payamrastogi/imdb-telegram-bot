@@ -50,7 +50,7 @@ class TelegramRequestHandler:
             self.process_isseen_command(chat_id, command)
 
     def process_isseen_command(self, chat_id, command):
-        logger.info('process_isseen_command: start', chat_id, command)
+        logger.info('process_isseen_command: start chat id:{} and command: {}', chat_id, command)
         isseen = command.split("/isseen", 1)
         if isseen and len(isseen) == 2:
             request = {
@@ -61,7 +61,7 @@ class TelegramRequestHandler:
             self.publish_request(request, "psmdb_request_topic")
 
     def process_search_command(self, chat_id, command):
-        logger.info('process_search_command: start', chat_id, command)
+        logger.info('process_search_command: start chat id:{} and command: {}', chat_id, command)
         search = command.split("/search", 1)
         if search and len(search) == 2:
             request = {
@@ -72,7 +72,7 @@ class TelegramRequestHandler:
             self.publish_request(request, "imdb_request_topic")
 
     def process_date_command(self, chat_id):
-        logger.info('process_date_command: start', chat_id)
+        logger.info('process_date_command: start chat id:{}', chat_id)
         request = {
             "command": "date",
             "query": None,
@@ -81,7 +81,7 @@ class TelegramRequestHandler:
         self.publish_request("general_request_topic", request)
 
     def process_time_command(self, chat_id):
-        logger.info('process_time_command: start', chat_id)
+        logger.info('process_time_command: start chat id:{}', chat_id)
         request = {
             "command": "time",
             "query": None,
@@ -90,7 +90,7 @@ class TelegramRequestHandler:
         self.publish_request("general_request_topic", request)
 
     def process_help_command(self, chat_id):
-        logger.info('process_help_command: start', chat_id)
+        logger.info('process_help_command: start {}', chat_id)
         request = {
             "command": "help",
             "query": None,
@@ -99,7 +99,7 @@ class TelegramRequestHandler:
         self.publish_request("general_request_topic", request)
 
     def publish_request(self, topic, request):
-        logger.info('publish_request: start', topic, request)
+        logger.info('publish_request: start topic: {} request{}: ', topic, request)
         if topic and request:
             self.kafka_producer.send(topic, json.dumps(request, default=json_util.default).encode('utf-8'))
 

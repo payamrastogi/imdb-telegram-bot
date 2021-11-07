@@ -25,7 +25,7 @@ class GeneralRequestHandler:
             self.process_request(request)
 
     def process_request(self, request):
-        logger.info('process_request: start', request)
+        logger.info('process_request: start request:{}', request)
         request = json.load(request)
         request_type = request["type"]
         request_chat_id = request["chat_id"]
@@ -37,27 +37,27 @@ class GeneralRequestHandler:
             self.process_help_command(request_chat_id, request_type)
 
     def process_date_command(self, chat_id, request_type):
-        logger.info('process_date_command: start', chat_id, request_type)
+        logger.info('process_date_command: start chat id:{} and request_type:{}', chat_id, request_type)
         now = datetime.datetime.now()
         data = str("Date: ") + str(now.day) + str("/") + str(now.month) + str("/") + str(now.year)
         response = self.create_response(chat_id, request_type, data)
         self.publish_response(response)
 
     def process_time_command(self, chat_id, request_type):
-        logger.info('process_time_command: start', chat_id, request_type)
+        logger.info('process_time_command: start chat id:{} and request_type:{}', chat_id, request_type)
         now = datetime.datetime.now()
         data = str("Time: ") + str(now.hour) + str(":") + str(now.minute) + str(":") + str(now.second)
         response = self.create_response(chat_id, request_type, data)
         self.publish_response(response)
 
     def process_help_command(self, chat_id, request_type):
-        logger.info('process_help_command: start', chat_id, request_type)
+        logger.info('process_help_command: start chat id:{} and request_type:{}', chat_id, request_type)
         data = str("[/search <movie_name>] returns rating, year, and genres from IMDB")
         response = self.create_response(chat_id, request_type, data)
         self.publish_response(response)
 
     def publish_response(self, response):
-        logger.info('publish_response: start', response)
+        logger.info('publish_response: start response:{}', response)
         self.kafka_producer.send(RESPONSE_TOPIC, json.dumps(response, default=json_util.default).encode('utf-8'))
         self.kafka_producer.flush()
 

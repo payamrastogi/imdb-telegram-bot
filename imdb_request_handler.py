@@ -27,7 +27,7 @@ class IMDBRequestHandler:
             self.process_request(request)
 
     def process_request(self, request):
-        logger.info('process_request: start', request)
+        logger.info('process_request: start request:{}', request)
         request = json.load(request)
         request_type = request["type"]
         if request_type == "search":
@@ -36,7 +36,7 @@ class IMDBRequestHandler:
             self.find_movie(request, True)
 
     def find_movies(self, request, with_plot=False):
-        logger.info('find_movies: start', request)
+        logger.info('find_movies: start request:{}', request)
         query = request["query"]
         if query:
             try:
