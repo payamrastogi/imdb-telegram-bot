@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir log
+virtual .venv
 source ./venv/bin/activate
 pip install -r requirements.txt
 nohup python telegram_request_handler.py &
