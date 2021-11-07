@@ -66,8 +66,7 @@ class PSMDBRequestHandler:
 
     def publish_response(self, response):
         logger.info('publish_response: start response:{}', response)
-        self.kafka_producer.send(RESPONSE_TOPIC,
-                                 json.dumps(response, default=json_util.default).encode('utf-8'))
+        self.kafka_producer.send(RESPONSE_TOPIC, json.dumps(response, default=json_util.default).encode('utf-8'))
         self.kafka_producer.flush()
 
     @staticmethod

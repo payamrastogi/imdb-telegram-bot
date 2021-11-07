@@ -99,9 +99,10 @@ class TelegramRequestHandler:
         self.publish_request("general_request_topic", request)
 
     def publish_request(self, topic, request):
-        logger.info('publish_request: start topic: {} request{}: ', topic, json.dumps(request))
+        logger.info('publish_request: start topic: {} request{}: ', topic, request)
         if topic and request:
-            self.kafka_producer.send(topic, json.dumps(request))
+            self.kafka_producer.send(topic, json.dumps(request, default=json_util.default).encode('utf-8'))
+            self.kafka_producer.flush()
 
     @staticmethod
     def create_create_request(chat_id, query):
