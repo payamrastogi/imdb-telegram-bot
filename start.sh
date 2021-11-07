@@ -2,7 +2,7 @@
 
 mkdir log
 virtualenv .venv
-source venv/bin/activate
+source .venv/bin/activate
 pip install -r requirements.txt
 nohup python telegram_request_handler.py &
 nohup python general_request_handler.py &
