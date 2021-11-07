@@ -20,7 +20,7 @@ BOOTSTRAP_SERVERS = config_util.read_bootstrap_servers()
 
 class PSMDBRequestHandler:
     def __init__(self):
-        self.operator = {"search-gte", "search-gt", "search-e"}
+        print('PSMDBRequestHandler')
         self.kafka_consumer = KafkaConsumer(PSMDB_REQUEST_TOPIC, bootstrap_servers=BOOTSTRAP_SERVERS)
         self.kafka_producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS)
         self.mongodb_client = MongoDBClient()
@@ -28,6 +28,7 @@ class PSMDBRequestHandler:
             self.process_request(request)
 
     def process_request(self, request):
+        print(request)
         logger.info('process_request: start')
         request = json.load(request)
         request_type = request["type"]
