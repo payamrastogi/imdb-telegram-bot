@@ -1,1 +1,0 @@
-2021-11-07 01:00:25,788 - imdbpy.parser.http.piculet - DEBUG - removing 0 elements using path: "//a[@class="tn15more"][starts-with(@href, "/title/")]"

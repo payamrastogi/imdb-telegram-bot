@@ -1,1 +1,0 @@
-2021-11-07 01:00:19,528 - imdbpy.parser.http.piculet - DEBUG - removing 0 elements using path: "//span[@class="pro-link"]"

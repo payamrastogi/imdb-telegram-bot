@@ -16,7 +16,10 @@
 ./kafka/bin/kafka-topics.sh --describe --topic response_topic --bootstrap-server 192.168.1.23:9092
 ```
 
-
+- To make a shell script executable, use the following command.
+```
+git update-index --chmod=+x script.sh
+```
 
 #### References:
 - https://stackoverflow.com/questions/19645527/trying-to-get-pycharm-to-work-keep-getting-no-python-interpreter-selected
