@@ -4,6 +4,12 @@ from general_request_handler import GeneralRequestHandler
 from imdb_request_handler import IMDBRequestHandler
 from psmdb_request_handler import PSMDBRequestHandler
 
+import logging
+from logging.config import fileConfig
+
+fileConfig('logging.conf')
+logger = logging.getLogger()
+
 
 class IMDBTelegramBotMain:
     def __init__(self):

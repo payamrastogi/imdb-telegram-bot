@@ -8,6 +8,11 @@ from kafka import KafkaConsumer, KafkaProducer
 import config_util
 from mongodb_client import MongoDBClient
 
+import logging
+from logging.config import fileConfig
+fileConfig('logging.conf')
+logger = logging.getLogger()
+
 RESPONSE_TOPIC = config_util.read_response_topic()
 PSMDB_REQUEST_TOPIC = config_util.read_psmdb_request_topic()
 BOOTSTRAP_SERVERS = config_util.read_bootstrap_servers()
@@ -23,6 +28,7 @@ class PSMDBRequestHandler:
             self.process_request(request)
 
     def process_request(self, request):
+        logger.info('process_request: start', request)
         request = json.load(request)
         request_type = request["type"]
         if request_type == "isseen":
@@ -31,6 +37,7 @@ class PSMDBRequestHandler:
             self.process_search_gte_request(request)
 
     def process_is_seen_request(self, request):
+        logger.info('process_is_seen_request: start', request)
         movie_name = request["query"]
         movies = self.mongodb_client.find_movies_by_name(movie_name)
         for movie in movies:
@@ -39,6 +46,7 @@ class PSMDBRequestHandler:
             self.publish_response(response)
 
     def process_search_gte_request(self, request):
+        logger.info('process_search_gte_request: start', request)
         movie_rating = request["query"]
         movies = self.mongodb_client.find_movies_by_rating_gte(movie_rating)
         for movie in movies:
@@ -57,6 +65,7 @@ class PSMDBRequestHandler:
         return data
 
     def publish_response(self, response):
+        logger.info('publish_response: start', response)
         self.kafka_producer.send(RESPONSE_TOPIC,
                                  json.dumps(response, default=json_util.default).encode('utf-8'))
         self.kafka_producer.flush()

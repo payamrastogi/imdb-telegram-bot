@@ -1,6 +1,7 @@
 # !/usr/bin/env python3
-import datetime  # Importing the datetime library
 import json
+import logging
+from logging.config import fileConfig
 from time import sleep  # Importing the time library to provide the delays in program
 
 import telepot  # Importing the telepot library
@@ -9,6 +10,9 @@ from kafka import KafkaProducer
 from telepot.loop import MessageLoop  # Library function to communicate with telegram bot
 
 from config_util import read_telegram_bot_token
+
+fileConfig('logging.conf')
+logger = logging.getLogger()
 
 
 class TelegramRequestHandler:
@@ -26,11 +30,11 @@ class TelegramRequestHandler:
             sleep(10)
 
     def handle(self, msg):
+        logger.info('handle: start', msg)
         chat_id = msg['chat']['id']  # Receiving the message from telegram
         command = msg['text']  # Getting text from the message
 
-        print("Received:", command)
-
+        logger.debug("Received:", command)
         # Comparing the incoming message to send a reply according to it
         if command == '/hi':
             self.bot.sendMessage(chat_id, str("Hi! from crunch"))
@@ -42,8 +46,22 @@ class TelegramRequestHandler:
             self.process_date_command(chat_id)
         elif '/search' in command:
             self.process_search_command(chat_id, command)
+        elif '/isseen' in command:
+            self.process_isseen_command(chat_id, command)
+
+    def process_isseen_command(self, chat_id, command):
+        logger.info('process_search_command: start', chat_id, command)
+        isseen = command.split("/isseen", 1)
+        if isseen and len(isseen) == 2:
+            request = {
+                "command": "isseen",
+                "query": isseen[1].lstrip(),
+                "chat_id": chat_id
+            }
+            self.publish_request(request, "psmdb_request_topic")
 
     def process_search_command(self, chat_id, command):
+        logger.info('process_search_command: start', chat_id, command)
         search = command.split("/search", 1)
         if search and len(search) == 2:
             request = {
@@ -51,26 +69,40 @@ class TelegramRequestHandler:
                 "query": search[1].lstrip(),
                 "chat_id": chat_id
             }
-            self.kafka_producer.send("imdb_request_topic",
-                                     json.dumps(request, default=json_util.default).encode('utf-8'))
+            self.publish_request(request, "imdb_request_topic")
 
     def process_date_command(self, chat_id):
-        now = datetime.datetime.now()
-        self.bot.sendMessage(chat_id,
-                             str("Date: ") + str(now.day) + str("/") + str(now.month) + str("/") + str(now.year))
+        logger.info('process_date_command: start', chat_id)
+        request = {
+            "command": "date",
+            "query": None,
+            "chat_id": chat_id
+        }
+        self.publish_request("general_request_topic", request)
 
     def process_time_command(self, chat_id):
-        now = datetime.datetime.now()
-        self.bot.sendMessage(chat_id,
-                             str("Time: ") + str(now.hour) + str(":") + str(now.minute) + str(":")
-                             + str(now.second))
+        logger.info('process_time_command: start', chat_id)
+        request = {
+            "command": "time",
+            "query": None,
+            "chat_id": chat_id
+        }
+        self.publish_request("general_request_topic", request)
 
     def process_help_command(self, chat_id):
-        self.bot.sendMessage(chat_id, str("[/search <movie_name>] returns rating, year, and genres"))
+        logger.info('process_help_command: start', chat_id)
+        request = {
+            "command": "help",
+            "query": None,
+            "chat_id": chat_id
+        }
+        self.publish_request("general_request_topic", request)
 
-    def publish_request(self, request, topic):
-        self.kafka_producer.send(topic,
-                                 json.dumps(request, default=json_util.default).encode('utf-8'))
+    def publish_request(self, topic, request):
+        if topic and request:
+            logger.info('publish_request: start', topic, request)
+            self.kafka_producer.send(topic,
+                                     json.dumps(request, default=json_util.default).encode('utf-8'))
 
     @staticmethod
     def create_create_request(chat_id, query):

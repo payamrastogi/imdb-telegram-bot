@@ -8,6 +8,11 @@ from kafka import KafkaConsumer, KafkaProducer
 
 import config_util
 
+import logging
+from logging.config import fileConfig
+fileConfig('logging.conf')
+logger = logging.getLogger()
+
 RESPONSE_TOPIC = config_util.read_response_topic()
 IMDB_REQUEST_TOPIC = config_util.read_imdb_request_topic()
 BOOTSTRAP_SERVERS = config_util.read_bootstrap_servers()
@@ -22,6 +27,7 @@ class IMDBRequestHandler:
             self.process_request(request)
 
     def process_request(self, request):
+        logger.info('process_request: start', request)
         request = json.load(request)
         request_type = request["type"]
         if request_type == "search":
@@ -30,6 +36,7 @@ class IMDBRequestHandler:
             self.find_movie(request, True)
 
     def find_movies(self, request, with_plot=False):
+        logger.info('find_movies: start', request)
         query = request["query"]
         if query:
             try:
