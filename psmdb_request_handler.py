@@ -71,6 +71,7 @@ class PSMDBRequestHandler:
 
     def process_watched_request(self, request):
         query = request["query"]
+        print(query)
         if self.is_series(query):
             series = self.get_series_details(query)
             res = self.mongodb_client.insert_or_update_series(series)

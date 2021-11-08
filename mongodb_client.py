@@ -57,6 +57,7 @@ class MongoDBClient:
         self.movies_collection.drop()
 
     def insert_or_update_series(self, series):
+        print(series)
         if series:
             s = self.find_series_by_name(series['series_name'].lower())
             print(s)
