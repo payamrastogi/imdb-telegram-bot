@@ -47,6 +47,8 @@ class TelegramRequestHandler:
             self.process_search_command(chat_id, command)
         elif '/isseen' in command:
             self.process_isseen_command(chat_id, command)
+        elif '/watched' in command:
+            self.process_watched_command(chat_id, command)
 
     def process_isseen_command(self, chat_id, command):
         # logger.info('process_isseen_command: start')
@@ -69,6 +71,16 @@ class TelegramRequestHandler:
                 "chat_id": chat_id
             }
             self.publish_request("imdb_request_topic", request)
+
+    def process_watched_command(self, chat_id, command):
+        watched = command.split("/watched", 1)
+        if watched and len(watched) == 2:
+            request = {
+                "type": "watched",
+                "query": watched[1].strip(),
+                "chat_id": chat_id
+            }
+            self.publish_request("psmdb_request_topic", request)
 
     def process_date_command(self, chat_id):
         # logger.info('process_date_command: start')
