@@ -18,7 +18,8 @@
 
 - To make a shell script executable, use the following command.
 ```
-git update-index --chmod=+x script.sh
+git update-index --chmod=+x start.sh
+git update-index --chmod=+x stop.sh
 ```
 
 #### References:

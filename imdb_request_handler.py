@@ -1,7 +1,7 @@
 # !/usr/bin/env python3
 
 import json
-
+import copy
 from bson import json_util
 from imdb import IMDb, IMDbError
 from kafka import KafkaConsumer, KafkaProducer
@@ -13,19 +13,15 @@ import config_util
 # fileConfig('logging.conf')
 # logger = logging.getLogger()
 
-RESPONSE_TOPIC = config_util.read_response_topic()
-IMDB_REQUEST_TOPIC = config_util.read_imdb_request_topic()
-BOOTSTRAP_SERVERS = config_util.read_bootstrap_servers()
-
 
 class IMDBRequestHandler:
     def __init__(self):
-        self.kafka_producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS)
+        self.kafka_producer = KafkaProducer(bootstrap_servers=config_util.read_bootstrap_servers())
         self.imdb_client = IMDb()
 
     def start(self):
-        kafka_consumer = KafkaConsumer(IMDB_REQUEST_TOPIC,
-                                       bootstrap_servers=BOOTSTRAP_SERVERS,
+        kafka_consumer = KafkaConsumer(config_util.read_imdb_request_topic(),
+                                       bootstrap_servers=config_util.read_bootstrap_servers(),
                                        value_deserializer=lambda m: json.loads(m.decode('utf-8')))
         for request in kafka_consumer:
             self.process_request(request)
@@ -37,7 +33,7 @@ class IMDBRequestHandler:
         if request_type == "search":
             self.find_movies(request)
         elif request_type == "search_with_plot":
-            self.find_movie(request, True)
+            self.find_movies(request, True)
 
     def find_movies(self, request, with_plot=False):
         #logger.info('find_movies: start request:{}', request)
@@ -83,7 +79,12 @@ class IMDBRequestHandler:
         return data
 
     def publish_response(self, response):
-        self.kafka_producer.send(RESPONSE_TOPIC, json.dumps(response, default=json_util.default).encode('utf-8'))
+        if response and response["type"] == "search":
+            res = copy.deepcopy(response)
+            res["type"] = "add"
+            self.kafka_producer.send(config_util.read_recommendation_topic(), json.dumps(res, default=json_util.default).encode('utf-8'))
+            self.kafka_producer.flush()
+        self.kafka_producer.send(config_util.read_response_topic(), json.dumps(response, default=json_util.default).encode('utf-8'))
         self.kafka_producer.flush()
 
 

@@ -20,6 +20,10 @@ def read_response_topic():
     return config_yaml['response_topic']
 
 
+def read_recommendation_topic():
+    return config_yaml['recommendation_topic']
+
+
 def read_bootstrap_servers():
     return config_yaml['bootstrap_servers']
 
