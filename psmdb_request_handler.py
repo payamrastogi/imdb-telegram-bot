@@ -202,5 +202,5 @@ class PSMDBRequestHandler:
 
 if __name__ == '__main__':
     psmdb_request_handler = PSMDBRequestHandler()
-    psmdb_request_handler.start()
-    # psmdb_request_handler.process_file('movies.txt')
+    # psmdb_request_handler.start()
+    psmdb_request_handler.process_file('movies.txt')

@@ -58,7 +58,7 @@ class MongoDBClient:
 
     def insert_or_update_series(self, series):
         if series:
-            s = self.find_series_by_name(series['series_name'])
+            s = self.find_series_by_name(series['series_name'].lower())
             print(s)
             if s:
                 return self.update_series(series, s)
@@ -69,7 +69,7 @@ class MongoDBClient:
     def insert_series(self, series):
         if series:
             s = {
-                'name': series['series_name'],
+                'name': series['series_name'].lower(),
                 'seasons': [
                     {
                         'season': series['series_season_number'],
@@ -100,7 +100,7 @@ class MongoDBClient:
 
     def find_series_by_name(self, series_name):
         if series_name:
-            series = self.series_collection.find_one({"name": series_name})
+            series = self.series_collection.find_one({"name": series_name.lower()})
             return series
         return None
 
