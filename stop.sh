@@ -5,3 +5,4 @@ do
   echo "killing $line"
   kill -9 "$line"
 done < "$input"
+rm "$input"

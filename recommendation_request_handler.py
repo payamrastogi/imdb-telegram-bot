@@ -13,7 +13,7 @@ class RecommendationRequestHandler:
         self.mongodb_client = MongoDBClient()
 
     def start(self):
-        kafka_consumer = KafkaConsumer(config_util.read_psmdb_request_topic(),
+        kafka_consumer = KafkaConsumer(config_util.read_recommendation_topic(),
                                        bootstrap_servers=config_util.read_bootstrap_servers(),
                                        value_deserializer=lambda m: json.loads(m.decode('utf-8')))
         for request in kafka_consumer:
@@ -28,6 +28,7 @@ class RecommendationRequestHandler:
 
     def process_add_request(self, request):
         movie = request["data"]
+        print(movie)
         self.mongodb_client.insert_movie_recommendation(movie)
 
 

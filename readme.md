@@ -6,9 +6,10 @@
 - Delete all files in kafka/data and kafka/logs folder
 - List kafka topics
 ```
- ./kafka/bin/kafka-topics.sh --list --zookeeper 192.168.1.23:2181
-
+./kafka/bin/kafka-topics.sh --list --bootstrap-server 192.168.1.23:9092
+./kafka/bin/kafka-topics.sh --list --zookeeper 192.168.1.23:2181
 ```
+
 - Describe a Kafka topic
 ```
 ./kafka/bin/kafka-topics.sh --describe --topic imdb_request_topic --bootstrap-server 192.168.1.23:9092

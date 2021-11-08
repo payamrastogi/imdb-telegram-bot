@@ -117,7 +117,7 @@ class MongoDBClient:
         if movie:
             mov = self.find_movie_by_imdb_id(movie["imdb_id"])
             if not mov:
-                self.recommendations_collection.insert_one(mov)
+                self.recommendations_collection.insert_one(movie)
             return True
         return False
 
