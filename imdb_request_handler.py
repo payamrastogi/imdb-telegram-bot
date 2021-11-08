@@ -69,7 +69,7 @@ class IMDBRequestHandler:
 
     @staticmethod
     def create_data(movie_id, movie, with_plot):
-        data = { "imdb_id": movie_id, "name": movie.data['title'] }
+        data = {"imdb_id": movie_id, "name": movie.data['title']}
         if "rating" in movie.data:
             data["imdb_rating"] = movie.data['rating']
         if "year" in movie.data:

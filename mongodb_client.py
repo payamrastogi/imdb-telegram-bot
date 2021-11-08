@@ -2,16 +2,15 @@ import pymongo
 from bson import ObjectId
 import config_util
 
-MONGO_URI = config_util.read_mongo_uri()
-
 
 class MongoDBClient:
     def __init__(self):
         try:
-            self.mongo_client = pymongo.MongoClient(MONGO_URI)
+            self.mongo_client = pymongo.MongoClient(config_util.read_mongo_uri())
             self.movie_db = self.mongo_client["moviedb"]
             self.movies_collection = self.movie_db.movies
             self.series_collection = self.movie_db.series
+            self.recommendations_collection = self.movie_db.recommendations
         except Exception as e:
             print("could not connect to MongoDB", e)
 
@@ -25,7 +24,7 @@ class MongoDBClient:
     def find_movies_by_name(self, movie_name):
         movies = []
         if movie_name:
-            res = self.movies_collection.find({'name': {'$regex': movie_name.strip().lower(),  '$options': 'i'}})
+            res = self.movies_collection.find({'name': {'$regex': movie_name.strip().lower(), '$options': 'i'}})
             for movie in res:
                 movies.append({"psmdb_id": str(movie["_id"]), "name": movie["name"], "psmdb_rating": movie["rating"]})
         return movies
@@ -87,7 +86,7 @@ class MongoDBClient:
         if series and s:
             size = len(s['seasons'])
             s['seasons'].append({'season': series['series_season_number'], 'rating': series['series_rating']})
-            s['rating'] = (s['rating'] * size + float(series['series_rating'])) / (len(s['seasons'])*1.0)
+            s['rating'] = (s['rating'] * size + float(series['series_rating'])) / (len(s['seasons']) * 1.0)
             query = {"_id": s['_id']}
             self.series_collection.find_one_and_replace(query, s)
             return True
@@ -114,6 +113,21 @@ class MongoDBClient:
     def delete_all_series(self):
         self.series_collection.drop()
 
+    def insert_movie_recommendation(self, movie):
+        if movie:
+            mov = self.find_movie_by_imdb_id(movie["imdb_id"])
+            if not mov:
+                self.recommendations_collection.insert_one(mov)
+            return True
+        return False
+
+    def find_movie_by_imdb_id(self, imdb_id):
+        if imdb_id:
+            movie = self.recommendations_collection.find_one({"imdb_id": imdb_id})
+            return movie
+        return None
+
+
 if __name__ == '__main__':
     mongo = MongoDBClient()
     # mov = {'movie_name': 'the witcher: nightmare of the wolf', 'movie_rating': '3.5'}
@@ -127,4 +141,3 @@ if __name__ == '__main__':
     # mongo.insert_or_update_series(ser)
     m = mongo.find_movies_by_name('game')
     print(m)
-
