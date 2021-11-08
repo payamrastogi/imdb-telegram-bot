@@ -53,14 +53,20 @@ class MongoDBClient:
             return True
         return False
 
+    def delete_movie_by_id(self, movie_id):
+        if movie_id:
+            self.movies_collection.delete_one({"_id": ObjectId(movie_id)})
+            return True
+        return False
+
     def delete_all_movies(self):
         self.movies_collection.drop()
 
     def insert_or_update_series(self, series):
-        print(series)
+        print("insert or update", series)
         if series:
             s = self.find_series_by_name(series['series_name'].lower())
-            print(s)
+            print("----", s)
             if s:
                 return self.update_series(series, s)
             else:
@@ -141,4 +147,11 @@ if __name__ == '__main__':
     # ser = {'series_name': 'avatar: the last airbender', 'series_season_number': '2 ', 'series_rating': '5'}
     # mongo.insert_or_update_series(ser)
     m = mongo.find_movies_by_name('game')
-    print(m)
+    # print(mongo.delete_movie_by_id("6188c31dd15654a4dd8b0e01"))
+    # print(mongo.delete_movie_by_id("6188c4fe5dc7aed6942e0bb3"))
+    # print(mongo.delete_movie_by_id("6188c5865dc7aed6942e0bb4"))
+    # print(mongo.delete_movie_by_id("6188c5c9ec807cdcf6aa4570"))
+    # print(mongo.delete_movie_by_id("6188c5f938222f44c4e04aa8"))
+    # print(mongo.delete_movie_by_id("6188c654af22330e6383d47c"))
+    # print(mongo.delete_movie_by_id("6188c6ad7d1a9f9d4a02ffd0"))
+

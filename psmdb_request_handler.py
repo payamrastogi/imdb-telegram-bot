@@ -73,9 +73,12 @@ class PSMDBRequestHandler:
         query = request["query"]
         print(query)
         if self.is_series(query):
+            print("is series")
             series = self.get_series_details(query)
+            print(series)
             res = self.mongodb_client.insert_or_update_series(series)
         else:
+            print("is movie")
             movie = self.get_movie_details(query)
             res = self.mongodb_client.insert_movie(movie)
         if res:
@@ -136,7 +139,7 @@ class PSMDBRequestHandler:
 
     @staticmethod
     def is_series(text):
-        if text.startswith("series:"):
+        if text and text.lower().startswith("series:"):
             return True
         else:
             return False
