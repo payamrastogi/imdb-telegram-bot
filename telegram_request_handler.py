@@ -8,7 +8,7 @@ from bson import json_util
 from kafka import KafkaProducer
 from telepot.loop import MessageLoop  # Library function to communicate with telegram bot
 
-from config_util import read_telegram_bot_token
+from config_util import read_telegram_bot_token, read_bootstrap_servers
 
 # import logging
 # from logging.config import fileConfig
@@ -20,7 +20,7 @@ class TelegramRequestHandler:
     def __init__(self):
         self.bot = telepot.Bot(read_telegram_bot_token())
         print(self.bot.getMe())
-        self.kafka_producer = KafkaProducer(bootstrap_servers='192.168.1.23:9092')
+        self.kafka_producer = KafkaProducer(bootstrap_servers=read_bootstrap_servers())
 
     # Start listening to the telegram bot and whenever a message is  received, the handle function will be called.
     def start(self):

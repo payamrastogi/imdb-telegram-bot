@@ -1,7 +1,7 @@
 from kafka.admin import KafkaAdminClient, NewTopic
 
 admin_client = KafkaAdminClient(
-    bootstrap_servers="192.168.1.23:9092",
+    bootstrap_servers="192.168.1.45:9092",
     client_id='imdb-telegram-bot'
 )
 

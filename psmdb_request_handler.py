@@ -17,7 +17,7 @@ from mongodb_client import MongoDBClient
 
 class PSMDBRequestHandler:
     def __init__(self):
-        self.kafka_producer = KafkaProducer(bootstrap_servers=config_util.read_bootstrap_servers())
+        self.kafka_producer = KafkaProducer(bootstrap_servers=config_util.read_bootstrap_servers()) # comment this if you want to insert manually
         self.mongodb_client = MongoDBClient()
 
     def start(self):
@@ -206,5 +206,5 @@ class PSMDBRequestHandler:
 
 if __name__ == '__main__':
     psmdb_request_handler = PSMDBRequestHandler()
-    psmdb_request_handler.start()
-    # psmdb_request_handler.process_file('movies.txt')
+    psmdb_request_handler.start() # comment this if you want to insert manually
+    #psmdb_request_handler.process_file('movies.txt') # uncomment this if you want to insert manually
