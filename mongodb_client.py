@@ -147,6 +147,7 @@ if __name__ == '__main__':
     # ser = {'series_name': 'avatar: the last airbender', 'series_season_number': '2 ', 'series_rating': '5'}
     # mongo.insert_or_update_series(ser)
     m = mongo.find_movies_by_name('game')
+    print(m)
     # print(mongo.delete_movie_by_id("6188c31dd15654a4dd8b0e01"))
     # print(mongo.delete_movie_by_id("6188c4fe5dc7aed6942e0bb3"))
     # print(mongo.delete_movie_by_id("6188c5865dc7aed6942e0bb4"))

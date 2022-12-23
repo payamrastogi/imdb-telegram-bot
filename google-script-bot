@@ -1,0 +1,58 @@
+let token = "[YOUR_TOKEN]";
+
+function getMe() {
+  let response = UrlFetchApp.fetch("https://api.telegram.org/bot"+token+"/getMe");
+  console.log(response.getContentText());
+}
+
+function setWebhook() {
+  let webAppUrl = "[YOUR_WEB_URL]"
+  let response = UrlFetchApp.fetch("https://api.telegram.org/bot"+token+"/setWebhook?url="+webAppUrl);
+  console.log(response.getContentText());
+}
+
+function doPost(e){
+  let contents = JSON.parse(e.postData.contents);
+  let chat_id = contents.message.chat.id;
+  let text = contents.message.text;
+  parseMessage(chat_id, text)
+}
+
+function parseMessage(chat_id, text){
+    if (text){
+        if(text.startsWith("/watched ")){
+          text = text.replace(/[/]watched/i, "")
+          text = text.trim()
+          let movie_name = text.match(/([A-Za-z0-9!:\-& ]+)/)[0];
+          let rating = text.match(/[({1}][\d.]+[\){1}]/)[0];
+          rating = rating.replace(/\(|\)/g, "");
+          var lastRow = SpreadsheetApp.getActive().getActiveSheet().getLastRow();
+          SpreadsheetApp.getActive().getActiveSheet().appendRow([lastRow, movie_name, rating]);
+          sendText(chat_id, "Added Successfully!")
+        } else if (text.startsWith("/isseen ")){
+          text = text.replace(/[/]isseen/i, "")
+          text = text.trim()
+          let keyword = text.match(/([A-Za-z0-9!:\-& ]+)/)[0];
+          var textFinder = SpreadsheetApp.getActive().getActiveSheet().createTextFinder(keyword)
+          var ar = [];
+          textFinder.findAll().forEach(function(f){
+            ar.push(f.getValue())
+          })
+          sendText(chat_id, ar.join('\n'))
+        }
+      }
+  }
+
+function sendText(chat_id, text){
+  let data = {
+    method: "post",
+    payload: {
+      method: "sendMessage",
+      chat_id: String(chat_id),
+      text: text,
+      parse_mode: "HTML"
+    }
+  };
+
+  UrlFetchApp.fetch("https://api.telegram.org/bot"+token+"/", data);
+}
